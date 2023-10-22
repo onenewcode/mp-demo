@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onenewcode.mpdemo.mapper.UserMapper">
+    <insert id="saveUser" parameterType="com.onenewcode.mpdemo.domain.po.User">
+        INSERT INTO `user` (`id`, `username`, `password`, `phone`, `info`, `balance`)
+        VALUES
+        (#{id}, #{username}, #{password}, #{phone}, #{info}, #{balance});
+    </insert>
+    <update id="updateUser" parameterType="com.onenewcode.mpdemo.domain.po.User">
+        UPDATE `user`
+        <set>
+            <if test="username != null">
+                `username`=#{username}
+            </if>
+            <if test="password != null">
+                `password`=#{password}
+            </if>
+            <if test="phone != null">
+                `phone`=#{phone}
+            </if>
+            <if test="info != null">
+                `info`=#{info}
+            </if>
+            <if test="status != null">
+                `status`=#{status}
+            </if>
+            <if test="balance != null">
+                `balance`=#{balance}
+            </if>
+        </set>
+        WHERE `id`=#{id};
+    </update>
+    <delete id="deleteUser" parameterType="com.onenewcode.mpdemo.domain.po.User">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+    <select id="queryUserById" resultType="com.onenewcode.mpdemo.domain.po.User">
+        SELECT *
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <select id="queryUserByIds" resultType="com.onenewcode.mpdemo.domain.po.User">
+        SELECT *
+        FROM user
+        <if test="ids != null">
+            WHERE id IN
+            <foreach collection="ids" open="(" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        LIMIT 10
+    </select>
+    <select id="queryUserByIdAndAddr" resultType="com.onenewcode.mpdemo.domain.po.User">
+        SELECT *
+        FROM user u
+        INNER JOIN address a ON u.id = a.user_id
+        WHERE u.id
+        <foreach collection="ids" separator="," item="id" open="IN (" close=")">
+            #{id}
+        </foreach>
+        AND a.city = #{city}
+    </select>
+
+</mapper>

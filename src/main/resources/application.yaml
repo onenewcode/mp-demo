@@ -33,4 +33,18 @@ logging:
     com.itheima: debug
   pattern:
     dateformat: HH:mm:ss
+knife4j:
+  enable: true
+  openapi:
+    title: 用户管理接口文档
+    description: "用户管理接口文档"
+    email: lspneverstudy@gmail.com
+    concat: onenewcode
+    version: v1.0.0
+    group:
+      default:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - com.onenewcode.mpdemo.controller
 
