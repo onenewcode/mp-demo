@@ -1,10 +1,14 @@
 package com.onenewcode.mpdemo.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
+import com.onenewcode.mpdemo.domain.dto.PageDTO;
 import com.onenewcode.mpdemo.domain.enums.UserStatus;
 import com.onenewcode.mpdemo.domain.po.User;
 import com.onenewcode.mpdemo.domain.po.Address;
+import com.onenewcode.mpdemo.domain.query.PageQuery;
 import com.onenewcode.mpdemo.domain.vo.UserVO;
 import com.onenewcode.mpdemo.mapper.UserMapper;
 import com.onenewcode.mpdemo.service.UserService;
@@ -62,9 +66,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     }
 
-//        @Override
-//        public void deduct (Long id, Integer money){
-//
+    @Override
+    public PageDTO<UserVO> queryUsersPage(PageQuery query) {
+        // 1.构建条件
+        // 1.1.分页条件
+        Page<User> page = Page.of(query.getPageNo(), query.getPageSize());
+        // 1.2.排序条件
+        if (query.getSortBy() != null) {
+            page.addOrder(new OrderItem(query.getSortBy(), query.getIsAsc()));
+        }else{
+            // 默认按照更新时间排序
+            page.addOrder(new OrderItem("update_time", false));
+        }
+        // 2.查询
+        page(page);
+        // 3.数据非空校验
+        List<User> records = page.getRecords();
+//        todo
+//        if (records == null || records.size() <= 0) {
+//            // 无数据，返回空结果
+//            return new PageDTO<>(page.getTotal(), page.getPages(), Collections.emptyList());
 //        }
+//        // 4.有数据，转换
+//        List<UserVO> list = BeanUtil.copyToList(records, UserVO.class);
+//        // 5.封装返回
+//        return new PageDTO<UserVO>(page.getTotal(), page.getPages(), list);
+        return null;
+    }
 
 }

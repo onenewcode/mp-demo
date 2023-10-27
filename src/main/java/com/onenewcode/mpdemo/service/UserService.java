@@ -1,7 +1,9 @@
 package com.onenewcode.mpdemo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.onenewcode.mpdemo.domain.dto.PageDTO;
 import com.onenewcode.mpdemo.domain.po.User;
+import com.onenewcode.mpdemo.domain.query.PageQuery;
 import com.onenewcode.mpdemo.domain.vo.UserVO;
 
 public interface UserService extends IService<User> {
@@ -9,4 +11,5 @@ public interface UserService extends IService<User> {
     void deductBalance(Long id, Integer money);
     UserVO queryUserAndAddressById(Long userId);
     void deduct(Long id, Integer money);
+    PageDTO<UserVO> queryUsersPage(PageQuery query);
 }

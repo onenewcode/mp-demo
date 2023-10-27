@@ -2,6 +2,7 @@ package com.onenewcode.mpdemo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.onenewcode.mpdemo.domain.dto.PageDTO;
 import com.onenewcode.mpdemo.domain.dto.UserFormDTO;
 import com.onenewcode.mpdemo.domain.po.User;
 import com.onenewcode.mpdemo.domain.query.UserQuery;
@@ -90,5 +91,8 @@ public class UserController {
 //        return BeanUtil.copyToList(users, UserVO.class);
         return null;
     }
-
+    @GetMapping("/page")
+    public PageDTO<UserVO> queryUsersPage(UserQuery query){
+        return userService.queryUsersPage(query);
+    }
 }
